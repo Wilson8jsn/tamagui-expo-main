@@ -23,10 +23,10 @@ export default function Home() {
           space="$4"
           maxWidth={600}
         >
-          <H1 textAlign="center">Movie Making.</H1>
+          <H1 textAlign="center">Movie Making</H1>
         </YStack>
 
-        <YStack space="$3">
+        <YStack space="$4">
           <Button onPress={() => router.push("/tabs")}>Begin</Button>
         </YStack>
       </MyStack>

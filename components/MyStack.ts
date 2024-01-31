@@ -5,6 +5,6 @@ export const MyStack = styled(YStack, {
   backgroundColor: "$backgroundStrong",
   flex: 1,
   justifyContent: "space-between",
-  padding: "$4",
+  padding: "$15",
   space: "$true"
 });
