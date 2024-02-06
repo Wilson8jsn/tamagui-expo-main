@@ -17,7 +17,12 @@ interface CharacterFormProps {
     name?: string;
     occupation?: string;
   };
-  onSubmit: (data: { name: string; occupation: string }) => void;
+  onSubmit: (data: {
+    name: string;
+    occupation: string;
+    time: string;
+    director: string;
+  }) => void;
   onCancel: () => void;
 }
 
@@ -30,11 +35,15 @@ const CharacterForm: React.FC<CharacterFormProps> = ({
   const [occupation, setOccupation] = useState(
     initialCharacter.occupation || ""
   );
+  const [time, setTime] = useState("");
+  const [director, setDirector] = useState("");
 
   const handleSubmit = () => {
-    onSubmit({ name, occupation });
+    onSubmit({ name, occupation, time, director });
     setName("");
     setOccupation("");
+    setTime("");
+    setDirector("");
   };
 
   return (
@@ -72,18 +81,32 @@ const CharacterForm: React.FC<CharacterFormProps> = ({
 
       <View style={styles.infoContainer}>
         <View style={styles.infoBox}>
-          <Text style={styles.infoText}>Time</Text>
+          <Text style={styles.infoLabelText}>Time</Text>
+          <TextInput
+            style={styles.infoInput}
+            value={time}
+            onChangeText={(text) => setTime(text)}
+            placeholder="Enter time"
+          />
         </View>
         <View style={styles.infoBox}>
-          <Text style={styles.infoText}>Director</Text>
+          <Text style={styles.infoLabelText}>Director</Text>
+          <TextInput
+            style={styles.infoInput}
+            value={director}
+            onChangeText={(text) => setDirector(text)}
+            placeholder="Enter director"
+          />
         </View>
       </View>
 
       <View style={styles.buttonContainer}>
-        <Button
+        <TouchableOpacity
           onPress={handleSubmit}
-          title="Create Character"
-        />
+          style={styles.createCharacterButton}
+        >
+          <Text style={styles.createCharacterButtonText}>Create Character</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -135,7 +158,9 @@ const styles = {
     borderColor: "gray",
     borderWidth: 1,
     marginBottom: 10,
-    paddingHorizontal: 10
+    paddingHorizontal: 16,
+    width: 350,
+    borderRadius: 15
   } as TextStyle,
   infoContainer: {
     flexDirection: "row",
@@ -144,18 +169,35 @@ const styles = {
   } as ViewStyle,
   infoBox: {
     width: "48%",
-    borderWidth: 1,
-    borderColor: "gray",
-    padding: 10,
     marginBottom: 10
   } as ViewStyle,
-  infoText: {
-    fontWeight: "bold"
+  infoLabelText: {
+    fontWeight: "bold",
+    marginBottom: 5
+  } as TextStyle,
+  infoInput: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    paddingHorizontal: 16,
+    borderRadius: 15
   } as TextStyle,
   buttonContainer: {
     alignSelf: "center",
     marginTop: 50
-  } as ViewStyle
+  } as ViewStyle,
+  createCharacterButton: {
+    backgroundColor: "#900000",
+    paddingVertical: 15,
+    borderRadius: 15,
+    width: 200,
+    alignItems: "center"
+  } as ViewStyle,
+  createCharacterButtonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold"
+  } as TextStyle
 };
 
 export default CharacterForm;
