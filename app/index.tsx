@@ -26,7 +26,7 @@ export default function Home() {
             textAlign="center"
             style={{ top: 360, position: "absolute", width: "100%" }}
           >
-            Movie Making
+            Movie Momie
           </H1>
         </YStack>
         <YStack space={5}>

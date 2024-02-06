@@ -1,7 +1,7 @@
 {
   "expo": {
     "scheme": "tamagui-app",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "light",
     "splash": {
       "backgroundColor": "#deb887",
       "image": "./assets/momia.png",

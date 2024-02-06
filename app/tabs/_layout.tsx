@@ -1,60 +1,78 @@
+import React, { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Tabs, useRouter } from "expo-router";
 import { Button } from "tamagui";
 
+import CharacterForm from "./CharacterForm";
 export default function Layout() {
-  const router = useRouter();
+  const [showForm, setShowForm] = useState(false);
+  const [films, setFilms] = useState([]);
+  const [selectedFilmIndex, setSelectedFilmIndex] = useState(null);
+
+  const handleCreateFilm = (film) => {
+    setFilms([...films, film]);
+    setShowForm(false);
+  };
+
+  const handleEditFilm = (index) => {
+    setSelectedFilmIndex(index);
+    setShowForm(true);
+  };
+
+  const handleDeleteFilm = (index) => {
+    const updatedFilms = [...films];
+    updatedFilms.splice(index, 1);
+    setFilms(updatedFilms);
+  };
+
+  const handleFormCancel = () => {
+    setShowForm(false);
+    setSelectedFilmIndex(null);
+  };
 
   return (
-    <Tabs>
-      <Tabs.Screen
-        name="tab1"
-        options={{
-          title: "Tab 1",
-          tabBarIcon(props) {
-            return (
-              <MaterialCommunityIcons
-                name="one-up"
-                {...props}
-              />
-            );
-          },
-          headerLeft() {
-            return (
-              <Button
-                ml="$2.5"
-                onPress={() => router.push("/")}
-              >
-                <MaterialCommunityIcons name="arrow-left" />
-              </Button>
-            );
+    <>
+      {showForm && (
+        <CharacterForm
+          onSubmit={(film) => {
+            if (selectedFilmIndex !== null) {
+              const updatedFilms = [...films];
+              updatedFilms[selectedFilmIndex] = film;
+              setFilms(updatedFilms);
+              setSelectedFilmIndex(null);
+            } else {
+              handleCreateFilm(film);
+            }
+          }}
+          onCancel={handleFormCancel}
+          initialCharacter={
+            selectedFilmIndex !== null ? films[selectedFilmIndex] : {}
           }
-        }}
-      />
-      <Tabs.Screen
-        name="tab2"
-        options={{
-          title: "Tab 2",
-          tabBarIcon(props) {
-            return (
-              <MaterialCommunityIcons
-                name="two-factor-authentication"
-                {...props}
-              />
-            );
-          },
-          headerLeft() {
-            return (
-              <Button
-                ml="$2.5"
-                onPress={() => router.push("/")}
-              >
-                <MaterialCommunityIcons name="arrow-left" />
-              </Button>
-            );
-          }
-        }}
-      />
-    </Tabs>
+        />
+      )}
+
+      <Button
+        position="absolute"
+        right="$2.5"
+        bottom="$2.5"
+        onPress={() => setShowForm(true)}
+      >
+        <MaterialCommunityIcons
+          name="plus"
+          size={24}
+          color="black"
+        />
+      </Button>
+
+      {films.map((film, index) => (
+        <div
+          key={index}
+          className="film-container"
+        >
+          <p>{`Film ${index + 1}`}</p>
+          <Button onClick={() => handleEditFilm(index)}>Edit</Button>
+          <Button onClick={() => handleDeleteFilm(index)}>Delete</Button>
+        </div>
+      ))}
+    </>
   );
 }
