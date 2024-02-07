@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Button,
   Image,
   ImageStyle,
   Text,
@@ -12,38 +11,44 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-interface CharacterFormProps {
-  initialCharacter: {
-    name?: string;
-    occupation?: string;
+interface FilmsFormProps {
+  initialFilm: {
+    title: string;
   };
-  onSubmit: (data: {
-    name: string;
-    occupation: string;
-    time: string;
-    director: string;
-  }) => void;
+  onSubmit: (data: any) => void;
   onCancel: () => void;
 }
 
-const CharacterForm: React.FC<CharacterFormProps> = ({
-  initialCharacter,
+const API_URL = "http://10.0.8.224:8088";
+
+const FilmsForm: React.FC<FilmsFormProps> = ({
+  initialFilm,
   onSubmit,
   onCancel
 }) => {
-  const [name, setName] = useState(initialCharacter.name || "");
-  const [occupation, setOccupation] = useState(
-    initialCharacter.occupation || ""
-  );
-  const [time, setTime] = useState("");
+  const [title, setTitle] = useState(initialFilm.title || "");
+  const [duration, setDuration] = useState("");
   const [director, setDirector] = useState("");
 
   const handleSubmit = () => {
-    onSubmit({ name, occupation, time, director });
-    setName("");
-    setOccupation("");
-    setTime("");
-    setDirector("");
+    const filmData = { title, duration, director };
+    fetch(`${API_URL}/film`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(filmData)
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        onSubmit(data);
+        setTitle("");
+        setDuration("");
+        setDirector("");
+      })
+      .catch((error) =>
+        console.error("Error al enviar los datos al servidor:", error)
+      );
   };
 
   return (
@@ -73,20 +78,20 @@ const CharacterForm: React.FC<CharacterFormProps> = ({
         <Text style={styles.titleText}>Title</Text>
         <TextInput
           style={styles.titleInput}
-          value={name}
-          onChangeText={(text) => setName(text)}
+          value={title}
+          onChangeText={(text) => setTitle(text)}
           placeholder="Enter title"
         />
       </View>
 
       <View style={styles.infoContainer}>
         <View style={styles.infoBox}>
-          <Text style={styles.infoLabelText}>Time</Text>
+          <Text style={styles.infoLabelText}>Duration</Text>
           <TextInput
             style={styles.infoInput}
-            value={time}
-            onChangeText={(text) => setTime(text)}
-            placeholder="Enter time"
+            value={duration}
+            onChangeText={(text) => setDuration(text)}
+            placeholder="Enter duration"
           />
         </View>
         <View style={styles.infoBox}>
@@ -103,9 +108,9 @@ const CharacterForm: React.FC<CharacterFormProps> = ({
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={handleSubmit}
-          style={styles.createCharacterButton}
+          style={styles.createFilmButton}
         >
-          <Text style={styles.createCharacterButtonText}>Create Character</Text>
+          <Text style={styles.createFilmButtonText}>Create Film</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -114,16 +119,22 @@ const CharacterForm: React.FC<CharacterFormProps> = ({
 
 const styles = {
   container: {
-    flex: 1,
+    position: "absolute", // Posicionamiento absoluto para superponer sobre la lista de películas
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     padding: 20,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    zIndex: 9999 // Asegura que esté por encima de la lista de películas
+    // Resto de estilos...
   } as ViewStyle,
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 30,
-    marginTop: 27
+    marginTop: 30
   } as ViewStyle,
   headerText: {
     fontSize: 24,
@@ -186,18 +197,18 @@ const styles = {
     alignSelf: "center",
     marginTop: 50
   } as ViewStyle,
-  createCharacterButton: {
+  createFilmButton: {
     backgroundColor: "#900000",
     paddingVertical: 15,
     borderRadius: 15,
     width: 200,
     alignItems: "center"
   } as ViewStyle,
-  createCharacterButtonText: {
+  createFilmButtonText: {
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold"
   } as TextStyle
 };
 
-export default CharacterForm;
+export default FilmsForm;
