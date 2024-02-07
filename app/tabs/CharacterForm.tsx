@@ -123,7 +123,7 @@ const styles = {
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 30,
-    marginTop: 16
+    marginTop: 27
   } as ViewStyle,
   headerText: {
     fontSize: 24,

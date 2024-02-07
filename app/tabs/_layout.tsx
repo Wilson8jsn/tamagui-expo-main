@@ -3,19 +3,23 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Button } from "tamagui";
 
 import CharacterForm from "./CharacterForm";
+
 export default function Layout() {
   const [showForm, setShowForm] = useState(false);
   const [films, setFilms] = useState([]);
   const [selectedFilmIndex, setSelectedFilmIndex] = useState(null);
+  const [showCrossButton, setShowCrossButton] = useState(true);
 
   const handleCreateFilm = (film) => {
     setFilms([...films, film]);
     setShowForm(false);
+    setShowCrossButton(true);
   };
 
   const handleEditFilm = (index) => {
     setSelectedFilmIndex(index);
     setShowForm(true);
+    setShowCrossButton(false);
   };
 
   const handleDeleteFilm = (index) => {
@@ -27,6 +31,7 @@ export default function Layout() {
   const handleFormCancel = () => {
     setShowForm(false);
     setSelectedFilmIndex(null);
+    setShowCrossButton(true);
   };
 
   return (
@@ -50,18 +55,29 @@ export default function Layout() {
         />
       )}
 
-      <Button
-        position="absolute"
-        right="$2.5"
-        bottom="$2.5"
-        onPress={() => setShowForm(true)}
-      >
-        <MaterialCommunityIcons
-          name="plus"
-          size={24}
-          color="black"
-        />
-      </Button>
+      {showCrossButton && (
+        <Button
+          position="absolute"
+          right="$2.5"
+          bottom="$2.5"
+          style={{
+            backgroundColor: "#900000", // Color rojo vino
+            borderRadius: "60%", // Borde circular
+            padding: "10px", // Ajuste de padding para la posición
+            boxShadow: "0px 10px 10px rgba(0, 0, 0, 0.1)" // Sombra para un efecto de elevación
+          }}
+          onPress={() => {
+            setShowForm(true);
+            setShowCrossButton(false);
+          }}
+        >
+          <MaterialCommunityIcons
+            name="plus"
+            size={24}
+            color="#fff" // Color del icono
+          />
+        </Button>
+      )}
 
       {films.map((film, index) => (
         <div
