@@ -17,6 +17,8 @@
     "@tamagui/font-inter": "^1.81.4",
     "@tamagui/lucide-icons": "^1.81.4",
     "@tamagui/themes": "^1.81.4",
+    "@types/axios": "^0.14.0",
+    "axios": "^1.6.7",
     "expo": "49.0.21",
     "expo-constants": "~14.4.2",
     "expo-font": "11.4.0",
