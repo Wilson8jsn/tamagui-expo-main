@@ -2,7 +2,7 @@ import axios from "axios";
 
 const baseUrl = "http://192.168.3.18:8088";
 
-export const fetchFilms = async (ruta) => {
+export const fetchFilm = async (ruta) => {
   const url = `${baseUrl}/${ruta}`;
   const response = await axios.get(url);
   console.log(response.data);
@@ -19,9 +19,9 @@ export const saveFilm = async (ruta, form) => {
 };
 
 export const deleteFilm = async (ruta, id) => {
-  const url = `${baseUrl}/${ruta}`;
-  console.log(id);
-  const response = await axios.delete(`${url}/delete/${id}`).catch((error) => {
+  const url = `${baseUrl}/${ruta}/delete/${id}`;
+  console.log(url);
+  const response = await axios.delete(url).catch((error) => {
     console.log("Error:", error);
   });
   console.log(response?.data);

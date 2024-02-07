@@ -3,7 +3,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Button, ScrollView, View } from "tamagui";
 
 import Card from "../Card/Card";
-import { deleteFilm, fetchFilms } from "../peticiones/Petitions";
+import { deleteFilm, fetchFilm } from "../peticiones/Petitions";
 
 import FilmsForm from "./Films";
 
@@ -16,7 +16,7 @@ export default function Layout() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await fetchFilms("film");
+        const data = await fetchFilm("film");
         setFilms(data);
       } catch (error) {
         console.error("Error al obtener datos de películas:", error);
