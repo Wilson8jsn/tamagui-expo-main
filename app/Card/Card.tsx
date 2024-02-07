@@ -32,7 +32,8 @@ const styles = {
   scrollView: {
     flexGrow: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    paddingTop: 60
   },
   cardContainer: {
     backgroundColor: "#900000",
@@ -40,8 +41,7 @@ const styles = {
     padding: 10,
     marginBottom: 10,
     width: 300,
-    alignItems: "center",
-    marginTop: 20
+    alignItems: "center"
   },
   filmNumber: {
     color: "#fff",
