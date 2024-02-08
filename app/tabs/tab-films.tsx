@@ -1,5 +1,7 @@
+//tab-films.tsx
 import React, { useEffect, useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import { Button, ScrollView, View } from "tamagui";
 
 import Card from "../Card/Card";
@@ -11,6 +13,7 @@ export default function Layout() {
   const [films, setFilms] = useState([]);
   const [cardsToShow, setCardsToShow] = useState(3);
   const [visibleCards, setVisibleCards] = useState([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     async function fetchData() {
@@ -38,12 +41,14 @@ export default function Layout() {
   };
 
   const handleScroll = (event) => {
-    // Verificar si se ha desplazado hasta el final del ScrollView
     const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
     if (layoutMeasurement.height + contentOffset.y >= contentSize.height) {
-      // Mostrar tres tarjetas más al desplazarse hasta el final
       setCardsToShow(cardsToShow + 3);
     }
+  };
+
+  const handleCardPress = () => {
+    navigation.navigate("tab2");
   };
 
   return (
@@ -58,7 +63,7 @@ export default function Layout() {
             flexDirection: "row",
             flexWrap: "wrap",
             justifyContent: "flex-start",
-            paddingBottom: 0
+            paddingBottom: 110
           }}
         >
           {visibleCards.map((film) => (
@@ -68,6 +73,7 @@ export default function Layout() {
               handleDelete={() => handleDeleteFilm(film.id)}
               handleEdit={() => {}}
               style={{ marginBottom: 10 }}
+              onPress={handleCardPress}
             />
           ))}
         </View>
