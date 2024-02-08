@@ -43,3 +43,14 @@ export const updateFilm = async (updatedData) => {
     throw new Error("Error al actualizar la película: " + error.message);
   }
 };
+
+export const fetchScenesByFilmId = async (filmId: number) => {
+  const url = `${baseUrl}/scenes?filmId=${filmId}`;
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.error(`Error al obtener escenas de la película ${filmId}:`, error);
+    throw error;
+  }
+};
