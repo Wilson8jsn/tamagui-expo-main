@@ -27,3 +27,16 @@ export const deleteFilm = async (ruta, id) => {
   console.log(response?.data);
   return "Borrado Exitoso";
 };
+
+export const updateFilm = async (id, updatedFilm) => {
+  const url = `http://192.168.3.18:8088/film/${id}`;
+
+  try {
+    const response = await axios.put(url, updatedFilm);
+    console.log("Película actualizada:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar la película:", error);
+    throw error;
+  }
+};

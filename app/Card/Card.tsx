@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 
-import { deleteFilm } from "../peticiones/Petitions";
+import CardEdit from "./Card-edit";
 
 interface CardProps {
   data: any;
@@ -10,13 +10,15 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ data, handleEdit, handleDelete }) => {
-  const onDelete = async () => {
-    try {
-      await deleteFilm("film", data.id);
-      handleDelete();
-    } catch (error) {
-      console.error("Error al eliminar:", error);
-    }
+  const [editing, setEditing] = useState(false);
+
+  const handleCancelEdit = () => {
+    setEditing(false);
+  };
+
+  const handleSave = (updatedFilm) => {
+    setFilmData(updatedFilm);
+    console.log("Película actualizada:", updatedFilm);
   };
 
   return (
@@ -32,19 +34,29 @@ const Card: React.FC<CardProps> = ({ data, handleEdit, handleDelete }) => {
         </View>
         <View style={styles.buttonContainer}>
           <Pressable
-            onPress={handleEdit}
+            onPress={() => setEditing(true)}
             style={styles.button}
           >
             <Image source={require("../images/EditIcon.png")} />
           </Pressable>
           <Pressable
-            onPress={onDelete}
+            onPress={handleDelete}
             style={styles.button}
           >
             <Image source={require("../images/DeleteIcon.png")} />
           </Pressable>
         </View>
       </View>
+      {editing && (
+        <CardEdit
+          data={data}
+          onCancel={handleCancelEdit}
+          onSave={(updatedFilm) => {
+            setEditing(false);
+            handleSave(updatedFilm);
+          }}
+        />
+      )}
     </ScrollView>
   );
 };

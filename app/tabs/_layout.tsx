@@ -10,8 +10,8 @@ import FilmsForm from "./Films";
 export default function Layout() {
   const [showForm, setShowForm] = useState(false);
   const [films, setFilms] = useState([]);
-  const [cardsToShow, setCardsToShow] = useState(3); // Número de tarjetas para mostrar inicialmente
-  const [visibleCards, setVisibleCards] = useState([]); // Tarjetas de películas actualmente visibles
+  const [cardsToShow, setCardsToShow] = useState(3);
+  const [visibleCards, setVisibleCards] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -26,7 +26,6 @@ export default function Layout() {
   }, []);
 
   useEffect(() => {
-    // Actualizar las tarjetas de películas visibles al cambiar la cantidad de tarjetas para mostrar
     setVisibleCards(films.slice(0, cardsToShow));
   }, [films, cardsToShow]);
 
@@ -59,8 +58,8 @@ export default function Layout() {
           style={{
             flexDirection: "row",
             flexWrap: "wrap",
-            justifyContent: "flex-start", // Cambiado a flex-start
-            paddingBottom: 100 // Espacio adicional para evitar que el botón cubra las últimas tarjetas
+            justifyContent: "flex-start",
+            paddingBottom: 110 // Incrementamos el margen inferior para el botón más
           }}
         >
           {visibleCards.map((film) => (
@@ -69,6 +68,7 @@ export default function Layout() {
               data={film}
               handleDelete={() => handleDeleteFilm(film.id)}
               handleEdit={() => {}}
+              style={{ marginBottom: 10 }}
             />
           ))}
         </View>
