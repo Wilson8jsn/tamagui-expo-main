@@ -1,3 +1,4 @@
+//peticiones.ts
 import axios from "axios";
 
 const baseUrl = "http://192.168.3.18:8088";

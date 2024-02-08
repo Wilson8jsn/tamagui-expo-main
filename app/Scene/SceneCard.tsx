@@ -1,3 +1,4 @@
+//scene card
 import React, { useState } from "react";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 
