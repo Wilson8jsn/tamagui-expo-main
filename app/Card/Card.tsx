@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 
+import CardEdit from "./Card-edit";
+
 interface CardProps {
   data: any;
   handleEdit: () => void;
   handleDelete: () => void;
-  onPress: () => void;
 }
 
 const Card: React.FC<CardProps> = ({ data, handleEdit, handleDelete }) => {
