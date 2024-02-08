@@ -23,7 +23,6 @@ const Scene: React.FC<SceneProps> = ({ data, handleEdit, handleDelete }) => {
   };
 
   const handleSave = (updatedScene) => {
-    // Aquí debes implementar la lógica para guardar la escena actualizada
     console.log("Escena actualizada:", updatedScene);
     setEditing(false);
   };
