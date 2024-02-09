@@ -33,7 +33,7 @@ export default function Layout() {
         }}
       />
       <Tabs.Screen
-        name="tab2"
+        name="tab-scene"
         options={{
           title: "Scene",
           tabBarIcon(props) {
@@ -58,7 +58,7 @@ export default function Layout() {
       />
 
       <Tabs.Screen
-        name="tab3"
+        name="tab-characters"
         options={{
           title: "Character",
           tabBarIcon(props) {

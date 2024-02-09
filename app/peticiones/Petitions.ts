@@ -1,4 +1,4 @@
-//peticiones.ts
+// peticiones.ts
 import axios from "axios";
 
 const baseUrl = "http://192.168.3.18:8088";
@@ -54,4 +54,64 @@ export const fetchScenesByFilmId = async (filmId: number) => {
     console.error(`Error al obtener escenas de la película ${filmId}:`, error);
     throw error;
   }
+};
+
+export const fetchAllScenes = async () => {
+  const url = `${baseUrl}/scenes`; // Corregir la URL para obtener todas las escenas
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching all scenes:", error);
+    throw error;
+  }
+};
+
+export const saveCharacter = async (form) => {
+  const url = `${baseUrl}/characters`;
+
+  const response = await axios.post(url, form).catch((error) => {
+    console.error("Error saving character:", error);
+    throw error;
+  });
+
+  console.log(response?.data);
+  return response.data;
+};
+
+export const deleteCharacter = async (id) => {
+  const url = `${baseUrl}/characters/delete/${id}`;
+
+  const response = await axios.delete(url).catch((error) => {
+    console.error("Error deleting character:", error);
+    throw error;
+  });
+
+  console.log(response?.data);
+  return "Deleted Successfully";
+};
+
+export const updateCharacter = async (id, updatedData) => {
+  const url = `${baseUrl}/characters/put`;
+
+  try {
+    const response = await axios.put(url, updatedData, {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating character:", error);
+    throw new Error("Error updating character: " + error.message);
+  }
+};
+
+export const fetchCharacters = async (ruta) => {
+  const url = `${baseUrl}/${ruta}`;
+  const response = await axios.get(url);
+  console.log(response.data);
+  return response.data;
 };

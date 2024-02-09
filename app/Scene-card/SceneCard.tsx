@@ -1,8 +1,7 @@
-//scene card
+// scene-card.tsx
 import React, { useState } from "react";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
-
-import CardEdit from "./Card-edit";
+import { useNavigation } from "@react-navigation/native";
 
 interface SceneProps {
   data: {
@@ -15,8 +14,13 @@ interface SceneProps {
   handleDelete: () => void;
 }
 
-const Scene: React.FC<SceneProps> = ({ data, handleEdit, handleDelete }) => {
+const SceneCard: React.FC<SceneProps> = ({
+  data,
+  handleEdit,
+  handleDelete
+}) => {
   const [editing, setEditing] = useState(false);
+  const navigation = useNavigation();
 
   const handleCancelEdit = () => {
     setEditing(false);
@@ -27,37 +31,46 @@ const Scene: React.FC<SceneProps> = ({ data, handleEdit, handleDelete }) => {
     setEditing(false);
   };
 
+  const handleCardPress = () => {
+    navigation.navigate("tab2", { filmId: data.id });
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.scrollView}>
-      <View style={styles.cardContainer}>
-        <View style={styles.filmNumberContainer}>
-          <Text style={styles.filmNumber}>{data.description}</Text>
+      <Pressable onPress={handleCardPress}>
+        <View style={styles.cardContainer}>
+          <View style={styles.filmNumberContainer}>
+            <Text style={styles.filmNumber}>Film {data.id}</Text>
+          </View>
+          <View style={styles.infoContainer}>
+            <Text style={styles.infoText}>Title: {data.title}</Text>
+            <Text style={styles.infoText}>Duration: {data.duration}</Text>
+            <Text style={styles.infoText}>Director: {data.director}</Text>
+          </View>
+          <View style={styles.buttonContainer}>
+            <Pressable
+              onPress={() => setEditing(true)}
+              style={styles.button}
+            >
+              <Image source={require("../images/EditIcon.png")} />
+            </Pressable>
+            <Pressable
+              onPress={handleDelete}
+              style={styles.button}
+            >
+              <Image source={require("../images/DeleteIcon.png")} />
+            </Pressable>
+          </View>
         </View>
-        <View style={styles.infoContainer}>
-          <Text style={styles.infoText}>Budget: {data.budget}</Text>
-          <Text style={styles.infoText}>Hours: {data.hours}</Text>
-          <Text style={styles.infoText}>FilmID: {data.filmId}</Text>
-        </View>
-        <View style={styles.buttonContainer}>
-          <Pressable
-            onPress={() => setEditing(true)}
-            style={styles.button}
-          >
-            <Image source={require("../images/EditIcon.png")} />
-          </Pressable>
-          <Pressable
-            onPress={handleDelete}
-            style={styles.button}
-          >
-            <Image source={require("../images/DeleteIcon.png")} />
-          </Pressable>
-        </View>
-      </View>
+      </Pressable>
       {editing && (
         <CardEdit
           data={data}
           onCancel={handleCancelEdit}
-          onSave={(updatedScene) => handleSave(updatedScene)}
+          onSave={(updatedScene) => {
+            setEditing(false);
+            handleSave(updatedScene);
+          }}
         />
       )}
     </ScrollView>
@@ -111,4 +124,4 @@ const styles = {
   }
 };
 
-export default Scene;
+export default SceneCard;

@@ -1,3 +1,4 @@
+// tab-scene.tsx
 import React, { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { useRoute } from "@react-navigation/native";
@@ -16,6 +17,10 @@ export default function Tab2() {
           const filmId = route.params.filmId;
           const data = await fetchScenesByFilmId(filmId);
           setScenes(data);
+        } else {
+          // Si no se ha seleccionado ninguna tarjeta de películas, obtener todas las escenas
+          const allScenes = await fetchAllScenes();
+          setScenes(allScenes);
         }
       } catch (error) {
         console.error("Error fetching scenes:", error);
@@ -24,6 +29,17 @@ export default function Tab2() {
 
     fetchData();
   }, [route.params]);
+
+  const fetchAllScenes = async () => {
+    try {
+      // Realizar la solicitud para obtener todas las escenas
+      const allScenes = await fetchScenesByFilmId();
+      return allScenes;
+    } catch (error) {
+      console.error("Error fetching all scenes:", error);
+      throw error;
+    }
+  };
 
   return (
     <ScrollView>
