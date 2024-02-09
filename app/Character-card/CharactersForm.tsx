@@ -36,9 +36,9 @@ const CharactersForm: React.FC<CharactersFormProps> = ({
   onCancel
 }) => {
   const [description, setDescription] = useState(initialData.description || "");
-  const [cost, setCost] = useState(initialData.cost.toString() || ""); // Convert to string
+  const [cost, setCost] = useState(initialData.cost.toString() || "");
   const [Aspect, setAspect] = useState(initialData.Aspect || "");
-  const [age, setAge] = useState(initialData.age.toString() || ""); // Convert to string
+  const [age, setAge] = useState(initialData.age.toString() || "");
   const [interpreted, setInterpreted] = useState(initialData.interpreted || "");
 
   const handleSubmit = () => {

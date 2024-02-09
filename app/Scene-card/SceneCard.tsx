@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import SceneEdit from "./Card-edit";
 
@@ -9,20 +10,63 @@ interface CardProps {
   handleDelete: () => void;
 }
 
+const API_URL = "http://192.168.3.18:8088";
+
 const Card: React.FC<CardProps> = ({ data, handleEdit, handleDelete }) => {
   const [editing, setEditing] = useState(false);
+  const navigation = useNavigation();
 
   const handleCancelEdit = () => {
     setEditing(false);
   };
 
-  const handleSave = (updatedScene) => {
-    console.log("Escena actualizada:", updatedScene);
+  const handleSave = async (updatedScene) => {
+    try {
+      const response = await fetch(`${API_URL}/scene/${updatedScene.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(updatedScene)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      console.log("Escena actualizada:", updatedScene);
+    } catch (error) {
+      console.error("Error al actualizar la escena:", error);
+    }
+  };
+
+  const handleDeletePress = async () => {
+    try {
+      const response = await fetch(`${API_URL}/scene/${data.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      console.log("Escena eliminada:", data.id);
+      handleDelete();
+    } catch (error) {
+      console.error("Error al eliminar la escena:", error);
+    }
+  };
+
+  const handleCardPress = () => {
+    navigation.navigate("tab-characters");
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollView}>
-      <Pressable onPress={() => setEditing(true)}>
+    <Pressable onPress={handleCardPress}>
+      <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.cardContainer}>
           <View style={styles.characterNumberContainer}>
             <Text style={styles.characterNumber}>Scene {data.id}</Text>
@@ -34,20 +78,20 @@ const Card: React.FC<CardProps> = ({ data, handleEdit, handleDelete }) => {
           </View>
           <View style={styles.buttonContainer}>
             <Pressable
-              onPress={handleEdit}
+              onPress={() => setEditing(true)} // Abre SceneEdit al tocar el ícono de editar
               style={styles.button}
             >
               <Image source={require("../images/EditIcon.png")} />
             </Pressable>
             <Pressable
-              onPress={handleDelete}
+              onPress={handleDeletePress}
               style={styles.button}
             >
               <Image source={require("../images/DeleteIcon.png")} />
             </Pressable>
           </View>
         </View>
-      </Pressable>
+      </ScrollView>
       {editing && (
         <SceneEdit
           data={data}
@@ -58,7 +102,7 @@ const Card: React.FC<CardProps> = ({ data, handleEdit, handleDelete }) => {
           }}
         />
       )}
-    </ScrollView>
+    </Pressable>
   );
 };
 

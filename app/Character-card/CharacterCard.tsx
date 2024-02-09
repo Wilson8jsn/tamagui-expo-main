@@ -3,7 +3,7 @@ import { Image, Pressable, ScrollView, Text, View } from "react-native";
 
 import { updateScene } from "../peticiones/Petitions";
 
-import SceneEdit from "./CharactersForm";
+import SceneEdit from "./CharacterEdit";
 
 interface CardProps {
   data: any;
