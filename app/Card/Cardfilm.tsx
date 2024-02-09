@@ -1,3 +1,4 @@
+//card film
 import React, { useState } from "react";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";

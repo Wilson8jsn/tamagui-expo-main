@@ -19,7 +19,7 @@ export default function Layout() {
         const data = await fetchFilm("film");
         setFilms(data);
       } catch (error) {
-        console.error("Error al obtener datos de films:", error);
+        console.error("Error al obtener datos de film:", error);
       }
     }
     fetchData();

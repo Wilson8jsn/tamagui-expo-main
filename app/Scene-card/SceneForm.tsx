@@ -82,7 +82,7 @@ const ScenesForm: React.FC<ScenesFormProps> = ({
 
       <View style={styles.imageContainer}>
         <Image
-          source={require("../images/Vector-2.png")}
+          source={require("../images/scene.png")}
           style={styles.image}
         />
       </View>
@@ -119,10 +119,10 @@ const ScenesForm: React.FC<ScenesFormProps> = ({
       </View>
 
       <View style={styles.infoContainer}>
-        <View style={styles.infoBox}>
-          <Text style={styles.infoLabelText}>Film ID</Text>
+        <View style={[styles.infoBox, styles.filmIdContainer]}>
+          <Text style={styles.infoLabelTexts}>Film ID</Text>
           <TextInput
-            style={styles.infoInput}
+            style={[styles.infoInput, styles.filmIdInput]}
             value={filmId}
             onChangeText={(text) => setFilmId(text)}
             placeholder="Enter film ID"
@@ -177,8 +177,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 10,
-    overflow: "hidden",
-    right: 29
+    overflow: "hidden"
   },
   titleContainer: {
     alignItems: "center",
@@ -204,13 +203,39 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 10
   },
+
   infoBox: {
     width: "48%",
     marginBottom: 10
   },
+  filmIdContainer: {
+    alignItems: "center"
+  },
+  filmIdLabelText: {
+    textAlign: "center"
+  },
+  filmIdInput: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 16,
+    width: 350,
+    borderRadius: 15,
+    left: 80,
+    textAlign: "center"
+  },
   infoLabelText: {
     fontWeight: "bold",
-    marginBottom: 5
+    marginBottom: 5,
+    textAlign: "center"
+  },
+
+  infoLabelTexts: {
+    fontWeight: "bold",
+    marginBottom: 5,
+    textAlign: "center",
+    left: 80
   },
   infoInput: {
     height: 40,

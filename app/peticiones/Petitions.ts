@@ -124,3 +124,27 @@ export const fetchScene = async (ruta) => {
   console.log(response.data);
   return response.data;
 };
+
+export const saveScene = async (form) => {
+  const url = `${baseUrl}/scene`;
+
+  const response = await axios.post(url, form).catch((error) => {
+    console.error("Error saving scene:", error);
+    throw error;
+  });
+
+  console.log(response?.data);
+  return response.data;
+};
+
+export const deleteScene = async (id) => {
+  const url = `${baseUrl}/characters/scene/${id}`;
+
+  const response = await axios.delete(url).catch((error) => {
+    console.error("Error deleting scene:", error);
+    throw error;
+  });
+
+  console.log(response?.data);
+  return "Deleted Successfully";
+};

@@ -8,14 +8,13 @@ import {
   View
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
 interface CharactersFormProps {
-  initialData: {
-    id: Long;
+  initialData?: {
+    id: number;
     description: string;
-    cost: BigDecimal;
+    cost: number;
     Aspect: string;
-    age: Long;
+    age: number;
     interpreted: string;
   };
   onSubmit: (data: any) => void;
@@ -25,15 +24,22 @@ interface CharactersFormProps {
 const API_URL = "http://192.168.3.18:8088";
 
 const CharactersForm: React.FC<CharactersFormProps> = ({
-  initialData,
+  initialData = {
+    id: 0,
+    description: "",
+    cost: 0,
+    Aspect: "",
+    age: 0,
+    interpreted: ""
+  },
   onSubmit,
   onCancel
 }) => {
   const [description, setDescription] = useState(initialData.description || "");
-  const [cost, setCost] = useState("");
-  const [Aspect, setAspect] = useState("");
-  const [age, setAge] = useState("");
-  const [interpreted, setInterpreted] = useState("");
+  const [cost, setCost] = useState(initialData.cost.toString() || ""); // Convert to string
+  const [Aspect, setAspect] = useState(initialData.Aspect || "");
+  const [age, setAge] = useState(initialData.age.toString() || ""); // Convert to string
+  const [interpreted, setInterpreted] = useState(initialData.interpreted || "");
 
   const handleSubmit = () => {
     const entityData = { description, cost, Aspect, age, interpreted };
@@ -57,7 +63,6 @@ const CharactersForm: React.FC<CharactersFormProps> = ({
         console.error("Error al enviar los datos al servidor:", error)
       );
   };
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
