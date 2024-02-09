@@ -15,7 +15,7 @@ export default function Layout() {
           tabBarIcon(props) {
             return (
               <MaterialCommunityIcons
-                name="camera"
+                name="filmstrip"
                 {...props}
               />
             );
@@ -64,7 +64,7 @@ export default function Layout() {
           tabBarIcon(props) {
             return (
               <MaterialCommunityIcons
-                name="camera"
+                name="account-outline"
                 {...props}
               />
             );

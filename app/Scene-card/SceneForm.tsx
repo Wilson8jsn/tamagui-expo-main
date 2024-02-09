@@ -9,37 +9,36 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-interface SceneFormProps {
-  initialScene: {
+interface ScenesFormProps {
+  initialData: {
+    id: Long;
     description: string;
     budget: string;
-    hours: number;
-    filmId: number;
+    hours: Int;
+    filmId: Long;
   };
   onSubmit: (data: any) => void;
   onCancel: () => void;
 }
 
-const API_URL = "http://10.10.3.30:8088";
+const API_URL = "http://192.168.3.18:8088";
 
-const SceneForm: React.FC<SceneFormProps> = ({
-  initialScene,
+const ScenesForm: React.FC<ScenesFormProps> = ({
+  initialData,
   onSubmit,
   onCancel
 }) => {
-  const [description, setDescription] = useState(
-    initialScene.description || ""
-  );
-  const [budget, setBudget] = useState(initialScene.budget || "");
+  const [description, setDescription] = useState(initialData.description || "");
+  const [budget, setBudget] = useState(initialData.budget || "");
   const [hours, setHours] = useState(
-    initialScene.hours ? initialScene.hours.toString() : ""
+    initialData.hours ? initialData.hours.toString() : ""
   );
   const [filmId, setFilmId] = useState(
-    initialScene.filmId ? initialScene.filmId.toString() : ""
+    initialData.filmId ? initialData.filmId.toString() : ""
   );
 
   const handleSubmit = () => {
-    const sceneData = {
+    const entityData = {
       description,
       budget,
       hours: parseInt(hours),
@@ -50,7 +49,7 @@ const SceneForm: React.FC<SceneFormProps> = ({
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(sceneData)
+      body: JSON.stringify(entityData)
     })
       .then((response) => response.json())
       .then((data) => {
@@ -68,7 +67,7 @@ const SceneForm: React.FC<SceneFormProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Scene</Text>
+        <Text style={styles.headerText}>Scenes Form</Text>
         <TouchableOpacity
           onPress={onCancel}
           style={styles.closeIcon}
@@ -79,6 +78,13 @@ const SceneForm: React.FC<SceneFormProps> = ({
             color="black"
           />
         </TouchableOpacity>
+      </View>
+
+      <View style={styles.imageContainer}>
+        <Image
+          source={require("../images/Vector-2.png")}
+          style={styles.image}
+        />
       </View>
 
       <View style={styles.titleContainer}>
@@ -108,7 +114,6 @@ const SceneForm: React.FC<SceneFormProps> = ({
             value={hours}
             onChangeText={(text) => setHours(text)}
             placeholder="Enter hours"
-            keyboardType="numeric"
           />
         </View>
       </View>
@@ -121,7 +126,6 @@ const SceneForm: React.FC<SceneFormProps> = ({
             value={filmId}
             onChangeText={(text) => setFilmId(text)}
             placeholder="Enter film ID"
-            keyboardType="numeric"
           />
         </View>
       </View>
@@ -164,6 +168,18 @@ const styles = StyleSheet.create({
   closeIcon: {
     marginLeft: 10
   },
+  imageContainer: {
+    alignItems: "center",
+    marginBottom: 20,
+    marginTop: 0
+  },
+  image: {
+    width: 200,
+    height: 200,
+    borderRadius: 10,
+    overflow: "hidden",
+    right: 29
+  },
   titleContainer: {
     alignItems: "center",
     marginBottom: 10,
@@ -205,7 +221,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     alignSelf: "center",
-    marginTop: 50
+    marginTop: 10
   },
   createFilmButton: {
     backgroundColor: "#900000",
@@ -221,4 +237,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SceneForm;
+export default ScenesForm;

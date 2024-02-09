@@ -1,26 +1,16 @@
-// scene-card.tsx
 import React, { useState } from "react";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
-interface SceneProps {
-  data: {
-    description: string;
-    budget: string;
-    hours: number;
-    filmId: number;
-  };
+import SceneEdit from "./Card-edit";
+
+interface CardProps {
+  data: any;
   handleEdit: () => void;
   handleDelete: () => void;
 }
 
-const SceneCard: React.FC<SceneProps> = ({
-  data,
-  handleEdit,
-  handleDelete
-}) => {
+const Card: React.FC<CardProps> = ({ data, handleEdit, handleDelete }) => {
   const [editing, setEditing] = useState(false);
-  const navigation = useNavigation();
 
   const handleCancelEdit = () => {
     setEditing(false);
@@ -28,28 +18,23 @@ const SceneCard: React.FC<SceneProps> = ({
 
   const handleSave = (updatedScene) => {
     console.log("Escena actualizada:", updatedScene);
-    setEditing(false);
-  };
-
-  const handleCardPress = () => {
-    navigation.navigate("tab2", { filmId: data.id });
   };
 
   return (
     <ScrollView contentContainerStyle={styles.scrollView}>
-      <Pressable onPress={handleCardPress}>
+      <Pressable onPress={() => setEditing(true)}>
         <View style={styles.cardContainer}>
-          <View style={styles.filmNumberContainer}>
-            <Text style={styles.filmNumber}>Film {data.id}</Text>
+          <View style={styles.characterNumberContainer}>
+            <Text style={styles.characterNumber}>Scene {data.id}</Text>
           </View>
           <View style={styles.infoContainer}>
-            <Text style={styles.infoText}>Title: {data.title}</Text>
-            <Text style={styles.infoText}>Duration: {data.duration}</Text>
-            <Text style={styles.infoText}>Director: {data.director}</Text>
+            <Text style={styles.infoText}>Description: {data.description}</Text>
+            <Text style={styles.infoText}>Budget: {data.budget}</Text>
+            <Text style={styles.infoText}>Hours: {data.hours}</Text>
           </View>
           <View style={styles.buttonContainer}>
             <Pressable
-              onPress={() => setEditing(true)}
+              onPress={handleEdit}
               style={styles.button}
             >
               <Image source={require("../images/EditIcon.png")} />
@@ -64,7 +49,7 @@ const SceneCard: React.FC<SceneProps> = ({
         </View>
       </Pressable>
       {editing && (
-        <CardEdit
+        <SceneEdit
           data={data}
           onCancel={handleCancelEdit}
           onSave={(updatedScene) => {
@@ -92,13 +77,13 @@ const styles = {
     width: 300,
     alignItems: "center"
   },
-  filmNumberContainer: {
+  characterNumberContainer: {
     flexDirection: "row",
     justifyContent: "flex-start",
     width: "100%",
     marginBottom: 10
   },
-  filmNumber: {
+  characterNumber: {
     color: "black",
     fontSize: 20,
     fontWeight: "bold"
@@ -120,8 +105,9 @@ const styles = {
   },
   infoText: {
     color: "#fff",
-    marginBottom: 5
+    marginBottom: 5,
+    left: 25
   }
 };
 
-export default SceneCard;
+export default Card;

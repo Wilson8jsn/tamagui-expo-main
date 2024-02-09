@@ -101,7 +101,7 @@ export default function Layout() {
             setShowForm(false);
           }}
           onCancel={() => setShowForm(false)}
-          initialData={{}}
+          initialCharacter={{}}
         />
       )}
     </View>

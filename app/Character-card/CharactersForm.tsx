@@ -75,7 +75,10 @@ const CharactersForm: React.FC<CharactersFormProps> = ({
       </View>
 
       <View style={styles.imageContainer}>
-        {/* Image Component or Placeholder */}
+        <Image
+          source={require("../images/Vector-2.png")}
+          style={styles.image}
+        />
       </View>
 
       <View style={styles.titleContainer}>
@@ -171,13 +174,14 @@ const styles = StyleSheet.create({
   imageContainer: {
     alignItems: "center",
     marginBottom: 20,
-    marginTop: 50
+    marginTop: 0
   },
   image: {
-    width: 300,
+    width: 200,
     height: 200,
     borderRadius: 10,
-    overflow: "hidden"
+    overflow: "hidden",
+    right: 29
   },
   titleContainer: {
     alignItems: "center",
@@ -220,7 +224,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     alignSelf: "center",
-    marginTop: 50
+    marginTop: 10
   },
   createFilmButton: {
     backgroundColor: "#900000",

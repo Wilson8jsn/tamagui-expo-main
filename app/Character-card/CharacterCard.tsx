@@ -1,38 +1,46 @@
 import React, { useState } from "react";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 
-import CardEdit from "./CharacterEdit";
+import { updateScene } from "../peticiones/Petitions";
+
+import SceneEdit from "./CharactersForm";
 
 interface CardProps {
   data: any;
-  handleEdit: () => void;
   handleDelete: () => void;
 }
 
-const Card: React.FC<CardProps> = ({ data, handleEdit, handleDelete }) => {
+const Card: React.FC<CardProps> = ({ data, handleDelete }) => {
   const [editing, setEditing] = useState(false);
+
+  const handleEdit = () => {
+    setEditing(true);
+  };
 
   const handleCancelEdit = () => {
     setEditing(false);
   };
 
-  const handleSave = (updatedCharacter) => {
-    console.log("Personaje actualizado:", updatedCharacter);
+  const handleSave = async (updatedScene) => {
+    try {
+      await updateScene(data.id, updatedScene);
+      setEditing(false);
+    } catch (error) {
+      console.error("Error al actualizar la escena:", error);
+    }
   };
 
   return (
     <ScrollView contentContainerStyle={styles.scrollView}>
-      <Pressable onPress={() => setEditing(true)}>
+      <Pressable onPress={handleEdit}>
         <View style={styles.cardContainer}>
-          <View style={styles.characterNumberContainer}>
-            <Text style={styles.characterNumber}>Character {data.id}</Text>
+          <View style={styles.sceneNumberContainer}>
+            <Text style={styles.sceneNumber}>Scene {data.id}</Text>
           </View>
           <View style={styles.infoContainer}>
             <Text style={styles.infoText}>Description: {data.description}</Text>
-            <Text style={styles.infoText}>Cost: {data.cost}</Text>
-            <Text style={styles.infoText}>Aspect: {data.Aspect}</Text>
-            <Text style={styles.infoText}>Age: {data.age}</Text>
-            <Text style={styles.infoText}>Interpreted: {data.interpreted}</Text>
+            <Text style={styles.infoText}>Budget: {data.budget}</Text>
+            <Text style={styles.infoText}>Hours: {data.hours}</Text>
           </View>
           <View style={styles.buttonContainer}>
             <Pressable
@@ -51,13 +59,10 @@ const Card: React.FC<CardProps> = ({ data, handleEdit, handleDelete }) => {
         </View>
       </Pressable>
       {editing && (
-        <CardEdit
+        <SceneEdit
           data={data}
           onCancel={handleCancelEdit}
-          onSave={(updatedCharacter) => {
-            setEditing(false);
-            handleSave(updatedCharacter);
-          }}
+          onSave={handleSave}
         />
       )}
     </ScrollView>
@@ -79,13 +84,13 @@ const styles = {
     width: 300,
     alignItems: "center"
   },
-  characterNumberContainer: {
+  sceneNumberContainer: {
     flexDirection: "row",
     justifyContent: "flex-start",
     width: "100%",
     marginBottom: 10
   },
-  characterNumber: {
+  sceneNumber: {
     color: "black",
     fontSize: 20,
     fontWeight: "bold"

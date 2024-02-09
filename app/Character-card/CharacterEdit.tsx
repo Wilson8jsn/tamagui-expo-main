@@ -1,43 +1,70 @@
 import React, { useState } from "react";
-import { Button, Text, TextInput, View } from "react-native";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
-import { updateCharacter } from "../peticiones/Petitions";
+interface CharacterEditProps {
+  data: any;
+  onCancel: () => void;
+  onSave: (updatedCharacter: any) => void;
+}
 
-const CharacterEdit = ({ data, onCancel, onSave }) => {
+const CharacterEdit: React.FC<CharacterEditProps> = ({
+  data,
+  onCancel,
+  onSave
+}) => {
   const [description, setDescription] = useState(data.description);
   const [cost, setCost] = useState(data.cost.toString());
-  const [aspect, setAspect] = useState(data.aspect);
+  const [Aspect, setAspect] = useState(data.Aspect);
   const [age, setAge] = useState(data.age.toString());
   const [interpreted, setInterpreted] = useState(data.interpreted);
 
-  const handleSubmit = async () => {
+  const handleSave = () => {
     const updatedCharacter = {
       description,
-      cost: parseInt(cost),
-      aspect,
+      cost: parseFloat(cost),
+      Aspect,
       age: parseInt(age),
       interpreted
     };
-    try {
-      await updateCharacter(data.id, updatedCharacter);
-      onSave(updatedCharacter);
-    } catch (error) {
-      console.error("Error saving character:", error);
-    }
+    onSave(updatedCharacter);
   };
 
   return (
     <View>
       <Text>Edit Character</Text>
-
-      <Button
-        title="Save"
-        onPress={handleSubmit}
+      <TextInput
+        value={description}
+        onChangeText={setDescription}
+        placeholder="Enter description"
       />
-      <Button
-        title="Cancel"
-        onPress={onCancel}
+      <TextInput
+        value={cost}
+        onChangeText={setCost}
+        placeholder="Enter cost"
+        keyboardType="numeric"
       />
+      <TextInput
+        value={Aspect}
+        onChangeText={setAspect}
+        placeholder="Enter aspect"
+      />
+      <TextInput
+        value={age}
+        onChangeText={setAge}
+        placeholder="Enter age"
+        keyboardType="numeric"
+      />
+      <TextInput
+        value={interpreted}
+        onChangeText={setInterpreted}
+        placeholder="Enter interpreted"
+      />
+      <TouchableOpacity onPress={handleSave}>
+        <Text>Save</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={onCancel}>
+        <Text>Cancel</Text>
+      </TouchableOpacity>
     </View>
   );
 };

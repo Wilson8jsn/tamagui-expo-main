@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Button, ScrollView, View } from "tamagui";
 
-import Card from "../Card/Card";
+import Cardfilm from "../Card/Cardfilm";
 import FilmsForm from "../Card/Films";
 import { deleteFilm, fetchFilm } from "../peticiones/Petitions";
 
@@ -19,7 +19,7 @@ export default function Layout() {
         const data = await fetchFilm("film");
         setFilms(data);
       } catch (error) {
-        console.error("Error al obtener datos de películas:", error);
+        console.error("Error al obtener datos de films:", error);
       }
     }
     fetchData();
@@ -31,18 +31,16 @@ export default function Layout() {
 
   const handleDeleteFilm = async (filmId) => {
     try {
-      await deleteFilm("films", filmId);
+      await deleteFilm(filmId);
       setFilms(films.filter((film) => film.id !== filmId));
     } catch (error) {
-      console.error("Error al eliminar la película:", error);
+      console.error("Error al eliminar el films:", error);
     }
   };
 
   const handleScroll = (event) => {
-    // Verificar si se ha desplazado hasta el final del ScrollView
     const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
     if (layoutMeasurement.height + contentOffset.y >= contentSize.height) {
-      // Mostrar tres tarjetas más al desplazarse hasta el final
       setCardsToShow(cardsToShow + 3);
     }
   };
@@ -63,7 +61,7 @@ export default function Layout() {
           }}
         >
           {visibleCards.map((film) => (
-            <Card
+            <Cardfilm
               key={film.id}
               data={film}
               handleDelete={() => handleDeleteFilm(film.id)}

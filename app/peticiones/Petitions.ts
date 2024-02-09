@@ -19,16 +19,6 @@ export const saveFilm = async (ruta, form) => {
   console.log(response?.data);
 };
 
-export const deleteFilm = async (ruta, id) => {
-  const url = `${baseUrl}/${ruta}/delete/${id}`;
-  console.log(url);
-  const response = await axios.delete(url).catch((error) => {
-    console.log("Error:", error);
-  });
-  console.log(response?.data);
-  return "Borrado Exitoso";
-};
-
 export const updateFilm = async (updatedData) => {
   const url = `${baseUrl}/film/put`;
   try {
@@ -57,7 +47,7 @@ export const fetchScenesByFilmId = async (filmId: number) => {
 };
 
 export const fetchAllScenes = async () => {
-  const url = `${baseUrl}/scenes`; // Corregir la URL para obtener todas las escenas
+  const url = `${baseUrl}/scenes`;
   try {
     const response = await axios.get(url);
     return response.data;
@@ -110,6 +100,25 @@ export const updateCharacter = async (id, updatedData) => {
 };
 
 export const fetchCharacters = async (ruta) => {
+  const url = `${baseUrl}/${ruta}`;
+  const response = await axios.get(url);
+  console.log(response.data);
+  return response.data;
+};
+
+export const deleteFilm = async (id) => {
+  const url = `${baseUrl}/characters/delete/${id}`;
+
+  const response = await axios.delete(url).catch((error) => {
+    console.error("Error deleting film:", error);
+    throw error;
+  });
+
+  console.log(response?.data);
+  return "Deleted Successfully";
+};
+
+export const fetchScene = async (ruta) => {
   const url = `${baseUrl}/${ruta}`;
   const response = await axios.get(url);
   console.log(response.data);

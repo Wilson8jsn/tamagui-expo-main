@@ -1,54 +1,107 @@
-// tab-scene.tsx
 import React, { useEffect, useState } from "react";
-import { ScrollView, View } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Button, ScrollView, View } from "tamagui";
 
-import { fetchScenesByFilmId } from "../peticiones/Petitions";
-import Scene from "../Scene-card/SceneCard";
+import { deleteScene, fetchScene } from "../peticiones/Petitions";
+import SceneCard from "../Scene-card/SceneCard";
+import ScenesForm from "../Scene-card/SceneForm";
 
-export default function Tab2() {
+export default function Layout() {
+  const [showForm, setShowForm] = useState(false);
   const [scenes, setScenes] = useState([]);
-  const route = useRoute();
+  const [cardsToShow, setCardsToShow] = useState(3);
+  const [visibleCards, setVisibleCards] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        if (route.params && route.params.filmId) {
-          const filmId = route.params.filmId;
-          const data = await fetchScenesByFilmId(filmId);
-          setScenes(data);
-        } else {
-          // Si no se ha seleccionado ninguna tarjeta de películas, obtener todas las escenas
-          const allScenes = await fetchAllScenes();
-          setScenes(allScenes);
-        }
+        const data = await fetchScene("scene");
+        setScenes(data);
       } catch (error) {
-        console.error("Error fetching scenes:", error);
+        console.error("Error al obtener datos de escenas:", error);
       }
     }
-
     fetchData();
-  }, [route.params]);
+  }, []);
 
-  const fetchAllScenes = async () => {
+  useEffect(() => {
+    setVisibleCards(scenes.slice(0, cardsToShow));
+  }, [scenes, cardsToShow]);
+
+  const handleDeleteScene = async (sceneId) => {
     try {
-      // Realizar la solicitud para obtener todas las escenas
-      const allScenes = await fetchScenesByFilmId();
-      return allScenes;
+      await deleteScene(sceneId);
+      setScenes(scenes.filter((scene) => scene.id !== sceneId));
     } catch (error) {
-      console.error("Error fetching all scenes:", error);
-      throw error;
+      console.error("Error al eliminar la escena:", error);
+    }
+  };
+
+  const handleScroll = (event) => {
+    const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
+    if (layoutMeasurement.height + contentOffset.y >= contentSize.height) {
+      setCardsToShow(cardsToShow + 3);
     }
   };
 
   return (
-    <ScrollView>
-      {scenes.map((scene) => (
-        <Scene
-          key={scene.id}
-          scene={scene}
+    <View style={{ flex: 1 }}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        onScroll={(event) => handleScroll(event)}
+        scrollEventThrottle={400}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "flex-start",
+            paddingBottom: 0
+          }}
+        >
+          {visibleCards.map((scene) => (
+            <SceneCard
+              key={scene.id}
+              data={scene}
+              handleDelete={() => handleDeleteScene(scene.id)}
+              handleEdit={() => {}}
+              style={{ marginBottom: 10 }}
+            />
+          ))}
+        </View>
+      </ScrollView>
+
+      <Button
+        onPress={() => setShowForm(true)}
+        style={{
+          backgroundColor: "#751C1C",
+          borderRadius: 50,
+          padding: 10,
+          height: 64,
+          width: 64,
+          position: "absolute",
+          right: 20,
+          bottom: 20
+        }}
+      >
+        <MaterialCommunityIcons
+          name="plus"
+          size={40}
+          color="#fff"
+          style={{ borderRadius: 50 }}
         />
-      ))}
-    </ScrollView>
+      </Button>
+
+      {showForm && (
+        <ScenesForm // Cambiado a ScenesForm
+          onSubmit={(newScene) => {
+            setScenes([...scenes, newScene]);
+            setShowForm(false);
+          }}
+          onCancel={() => setShowForm(false)}
+          initialData={{}} // Cambiado a initialData
+        />
+      )}
+    </View>
   );
 }
