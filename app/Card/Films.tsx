@@ -17,7 +17,7 @@ interface FilmsFormProps {
   onCancel: () => void;
 }
 
-const API_URL = "http://192.168.3.18:8088";
+const API_URL = "http://10.0.3.26:8088";
 
 const FilmsForm: React.FC<FilmsFormProps> = ({
   initialFilm,
