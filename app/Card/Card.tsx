@@ -22,7 +22,7 @@ const Card: React.FC<CardProps> = ({ data, handleEdit, handleDelete }) => {
   };
 
   const handleCardPress = () => {
-    navigation.navigate("Tab2", { filmId: data.id });
+    navigation.navigate("tab2", { filmId: data.id });
   };
 
   return (
