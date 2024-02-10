@@ -1,3 +1,3 @@
 # Evidencia 
 
-<img width="485" alt="Captura de pantalla 2024-02-10 a la(s) 2 39 35 p  m" src="https://github.com/Wilson8jsn/tamagui-expo-main/assets/115800617/fd68a4b8-c75a-4ec8-b3c1-3138ebc53612">
+<img width="541" alt="Captura de pantalla 2024-02-10 a la(s) 2 45 45 p  m" src="https://github.com/Wilson8jsn/tamagui-expo-main/assets/115800617/6772f5e0-c643-48a9-9abe-11fc12e00521">
