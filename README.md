@@ -1,4 +1,4 @@
-# Se me borro el baken  una diculpa evidencia de como se puede ver  
+# Evidencia 
 
 
 ![Simulator Screenshot - iPhone 15 - 2024-02-09 at 10 22 26](https://github.com/Wilson8jsn/tamagui-expo-main/assets/115800617/07532749-ad32-4254-8d75-335c21c99e1e)
