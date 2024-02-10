@@ -35,12 +35,13 @@ const Card: React.FC<CardProps> = ({ data, handleDelete }) => {
       <Pressable onPress={handleEdit}>
         <View style={styles.cardContainer}>
           <View style={styles.sceneNumberContainer}>
-            <Text style={styles.sceneNumber}>Scene {data.id}</Text>
+            <Text style={styles.sceneNumber}>Characters {data.id}</Text>
           </View>
           <View style={styles.infoContainer}>
             <Text style={styles.infoText}>Description: {data.description}</Text>
-            <Text style={styles.infoText}>Budget: {data.budget}</Text>
-            <Text style={styles.infoText}>Hours: {data.hours}</Text>
+            <Text style={styles.infoText}>cost: {data.cost}</Text>
+            <Text style={styles.infoText}>age: {data.age}</Text>
+            <Text style={styles.infoText}>interpreted: {data.interpreted}</Text>
           </View>
           <View style={styles.buttonContainer}>
             <Pressable

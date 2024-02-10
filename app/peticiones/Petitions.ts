@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://10.0.3.26:8088";
+const baseUrl = "http://192.168.3.18:8088";
 
 export const fetchFilm = async (ruta) => {
   const url = `${baseUrl}/${ruta}`;
